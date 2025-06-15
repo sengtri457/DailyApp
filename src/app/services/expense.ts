@@ -6,8 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Expense {
   http = inject(HttpClient);
-
-  total = '';
+  total: number = 0;
 
   constructor() {}
 }

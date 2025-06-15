@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 @Component({
   selector: 'app-main',
   imports: [],
@@ -8,4 +8,5 @@ import { Component } from '@angular/core';
 export class Main {
   TotalSpandTitle: string = "Today's Spend: ";
   Total = '';
+  constructor() {}
 }

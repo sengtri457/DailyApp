@@ -2,14 +2,27 @@
     <div class="row text-center">
         <h1 class="fw-bold text-uppercase">My daily</h1>
     </div>
-    <div class="wrapper-search row d-flex align-items-center bg-white p-3 rounded-5">
+    <div class="wrapper-search row d-flex align-items-center bg-white p-3 rounded-5 m-auto">
         <div class="col-lg-11 col-md-10 col-9">
-            <input [(ngModel)]="ValueForm" type="text" placeholder="$ Amount Category"
+            <input [(ngModel)]="valueForm" type="text" placeholder="$ Amount Category"
                 class=" h-auto p-2 rounded-3 input">
         </div>
         <div class="col-lg-1 col-md-2 col-3">
-            <button class="btn btn-outline-dark bg-dark text-white p-lg-2 rounded-3 h-auto w-100"
+            <button class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-100"
                 (click)="totl1()">Add</button>
+        </div>
+    </div>
+</div>
+<div class="container container-xl mt-5">
+    <div class="container container-lg-fluid">
+        <div class="row d-flex justify-content-center align-items-center gap-lg-4">
+            <div class="wrapper-todaySpend col-lg-5 col-12 rounded-5 pt-4 p-4 mb-lg-0 mb-3">
+                <h3 class="fw-bold">{{totalSpendTitle}}</h3>
+                <h4 class="fw-medium">$ {{result}}</h4>
+            </div>
+            <div class="wrapper-todaySpend col-lg-5 col-12 rounded-5 pt-4 p-4 bg-danger">
+                <h3 class="fw-bold">{{totalSpendTitle}}</h3>
+            </div>
         </div>
     </div>
 </div>

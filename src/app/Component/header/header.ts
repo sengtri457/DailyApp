@@ -8,14 +8,19 @@ import { Expense } from '../../services/expense';
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header implements OnInit {
-  ValueForm = '';
-
+export class Header {
+  valueForm: string = ''; // Form values are strings
+  result: number = 0;
+  totalSpendTitle: string = "Today's Spend: ";
+  Alphabet: string = 'a';
   total = inject(Expense);
-  totl1() {
-    this.total.total + this.ValueForm;
-  }
-  ngOnInit(): void {
-    this.totl1();
+
+  totl1(): void {
+    const numericValue = parseFloat(this.valueForm) || 0; // safely convert to number
+    this.result += this.total.total + numericValue;
+    if (this.valueForm.includes(this.Alphabet)) {
+      alert('Please Input int');
+    }
+    this.valueForm = '';
   }
 }
