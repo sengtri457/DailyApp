@@ -1,28 +1,104 @@
-<div class="container-fluid container-xxl m-auto mt-5 w-100">
-    <div class="row text-center">
-        <h1 class="fw-bold text-uppercase">My daily</h1>
-    </div>
-    <div class="wrapper-search row d-flex align-items-center bg-white p-3 rounded-5 m-auto">
-        <div class="col-lg-11 col-md-10 col-9">
-            <input [(ngModel)]="valueForm" type="text" placeholder="$ Amount Category"
-                class=" h-auto p-2 rounded-3 input">
+<div class="container-fluid container-xxl m-auto mt-5 w-100 wrapper pb-5 load-hidden">
+    <div class="mac-header d-flex justify-content-between align-content-center">
+        <div class="mac-header">
+            <span class="red"></span>
+            <span class="yellow"></span>
+            <span class="green"></span>
         </div>
-        <div class="col-lg-1 col-md-2 col-3">
-            <button class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-100"
-                (click)="totl1()">Add</button>
-        </div>
+        <div class="btn btn-pre">My Daily Spend</div>
     </div>
-</div>
-<div class="container container-xl mt-5">
-    <div class="container container-lg-fluid">
-        <div class="row d-flex justify-content-center align-items-center gap-lg-4">
-            <div class="wrapper-todaySpend col-lg-5 col-12 rounded-5 pt-4 p-4 mb-lg-0 mb-3">
-                <h3 class="fw-bold">{{totalSpendTitle}}</h3>
-                <h4 class="fw-medium">$ {{result}}</h4>
+    <div class="container p-3 widget">
+        <div class="row m-auto wrapper-search overflow-hidden rounded-5" data-aos="zoom-in">
+            <div class="mac-header">
+                <span class="red"></span>
+                <span class="yellow"></span>
+                <span class="green"></span>
             </div>
-            <div class="wrapper-todaySpend col-lg-5 col-12 rounded-5 pt-4 p-4 bg-danger">
-                <h3 class="fw-bold">{{totalSpendTitle}}</h3>
+            <div class="col-lg-12">
+                <div class=" row  bg-white p-3 rounded-5 m-auto">
+                    <div class="col-12">
+                        <input [(ngModel)]="ValueReal" type="text" placeholder="$ Amount Category"
+                            class=" h-auto p-2 rounded-3 input">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class=" row bg-white p-3 rounded-5 m-auto">
+                    <div class="col-12">
+                        <select [(ngModel)]="selectedCategory" name="category" id="category"
+                            class="w-100 p-2 rounded-5">
+                            <option value="Coffee">Coffee</option>
+                            <option value="Food">Food</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row d-flex align-items-center bg-white p-3 rounded-5 m-auto">
+                    <div class="col-4">
+                        <button class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-100 btn-increment"
+                            (click)="decrement()">-</button>
+                    </div>
+                    <div class="col-4">
+                        <button
+                            class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-100 btn-result">{{QtyResult()}}</button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-100 btn-decre"
+                            (click)="increment()">+</button>
+                    </div>
+                </div>
+                <div class="row d-flex align-items-center bg-white p-3 rounded-5 m-auto justify-content-center">
+                    <div class="col-12 m-auto text-center">
+                        <button class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-25"
+                            (click)="totalReal()">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container container-xl mt-5 widget">
+            <div class="container container-lg-fluid">
+                <div class="row d-flex justify-content-center align-items-center gap-lg-4" data-aos="zoom-in">
+                    <div class="card col-6 mb-lg-0 mb-3">
+                        <div class="mac-header">
+                            <span class="red"></span>
+                            <span class="yellow"></span>
+                            <span class="green"></span>
+                        </div>
+                        <span class="card-title">My Day Spending</span>
+                        <p class="card-description">
+                            Why pay full price today when you can cry about it tomorrow?
+                        </p>
+                        <div class="code-editor">
+                            @if (selectedCategory && QtyResult() && ConstGetItem) {
+                            <pre><code>&lt;h1&gt; {{totalSpendTitle}}<span class="highlight-red">{{result.toFixed(2)}}</span> &lt;/h1&gt;</code></pre>
+                            <pre><code>&lt;h1&gt; {{totalSpendTitleReal}}<span class="highlight-red">{{resultReal}}</span> &lt;/h1&gt;</code></pre>
+                            }
+                        </div>
+                    </div>
+                    <div class="card col-6">
+                        <div class="mac-header">
+                            <span class="red"></span>
+                            <span class="yellow"></span>
+                            <span class="green"></span>
+                        </div>
+                        <span class="card-title">Categories Day Spending</span>
+                        <p class="card-description">
+                            Why pay full price today when you can cry about it tomorrow?
+                        </p>
+                        <div class="code-editor">
+                            @if (selectedCategory && QtyResult() && ConstGetItem) {
+                            @for (item of Managementategory(); track item.id) {
+                            @if (selectedCategory == item.categoryName){
+                            <pre><code>&lt;h1&gt; <span>{{item.categoryName}}: </span>៛ {{ConstGetItem}} &lt;/h1&gt;</code></pre>
+                            }
+                            }
+                            <pre><code>&lt;h1&gt; <span>{{TitleQty}}: </span> {{QtyResult()}} &lt;/h1&gt;</code></pre>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
