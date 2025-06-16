@@ -178,6 +178,11 @@
     display: block;
 }
 
+.row-right {
+    overflow: hidden;
+    background-color: var(--light);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
 
 .wrapper-search {
     width: 40%;
@@ -196,6 +201,22 @@
     border: 1px solid black;
 }
 
+.btn {
+    font-size: clamp(0.7rem, 3vw, 0.8rem);
+}
+
+.chart-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+canvas {
+    width: 60% !important;
+    height: 90% !important;
+    margin: 0 auto;
+}
+
 @media screen and (max-width:768px) {
 
     .input {
@@ -204,6 +225,13 @@
 
     .wrapper-search {
         width: 100%;
+        ;
+    }
+}
+
+@media screen and (min-device-width: 768px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 1) {
+    .wrapper-search {
+        width: 70%;
         ;
     }
 }

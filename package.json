@@ -20,7 +20,7 @@
     "@angular/router": "^20.0.0",
     "@angular/ssr": "^20.0.0",
     "aos": "^2.3.4",
-    "chart.js": "^4.4.9",
+    "chart.js": "^4.5.0",
     "express": "^5.1.0",
     "ng2-charts": "^4.1.1",
     "rxjs": "~7.8.0",
