@@ -1,4 +1,4 @@
-<div class="container-fluid container-xxl m-auto mt-5 w-100 wrapper pb-5 load-hidden">
+<div class="container-fluid container-xxl m-auto mt-5 w-100 wrapper pb-5">
     <div class="mac-header d-flex justify-content-between align-content-center">
         <div class="mac-header">
             <span class="red"></span>
@@ -7,173 +7,129 @@
         </div>
         <div class="btn btn-pre">My Daily Spend</div>
     </div>
-    <div class="container p-3 widget">
-        <div class="row gap-lg-2 d-flex justify-content-center ">
-            <div class="col-lg-5 col-12 mb-lg-0 mb-3 overflow-hidden row-right ">
-                <div class="row overflow-hidden rounded-5" data-aos="zoom-in">
-                    <div class="mac-header">
-                        <span class="red"></span>
-                        <span class="yellow"></span>
-                        <span class="green"></span>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class=" row  bg-white p-3 rounded-5 m-auto">
-                            <div class="col-12">
-                                <input [(ngModel)]="ValueReal" type="text" placeholder="$ Amount Category"
-                                    class=" h-auto p-2 rounded-3 input">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class=" row bg-white p-3 rounded-5 m-auto">
-                            <div class="col-12">
-                                <select [(ngModel)]="selectedCategory" name="category" id="category"
-                                    class="w-100 p-2 rounded-5">
-                                    <option value="coffee">Coffee</option>
-                                    <option value="food">Food</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row d-flex align-items-center bg-white p-3 rounded-5 m-auto">
-                            <div class="col-4">
-                                <button
-                                    class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-100 btn-increment"
-                                    (click)="decrement()">-</button>
-                            </div>
-                            <div class="col-4">
-                                <button
-                                    class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-100 btn-result">{{GetIncrementeNumber()}}</button>
-                            </div>
-                            <div class="col-4">
-                                <button
-                                    class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-100 btn-decre"
-                                    (click)="increment()">+</button>
-                            </div>
-                        </div>
-                        <div class="row d-flex align-items-center bg-white p-3 rounded-5 m-auto justify-content-center">
-                            <div class="col-12 m-auto text-center">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button
-                                            class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-50"
-                                            (click)="totalReal()">Add</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button
-                                            class="btn btn-outline-dark bg-dark text-white p-2 rounded-3 h-auto w-50"
-                                            (click)="clearExpenses()">Clear</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+    
+    <div class="container p-3">
+        <div class="row gap-lg-2 d-flex justify-content-center">
+            <!-- Expense Form -->
+            <div class="col-lg-5 col-12 mb-lg-0 mb-3">
+                <app-expense-form></app-expense-form>
             </div>
-            <div class="col-lg-5 row-right col-12 overflow-hidden ">
-                <div class="row  overflow-hidden rounded-5">
+            
+            <!-- Chart Display -->
+            <div class="col-lg-5 col-12">
+                <div class="chart-container">
                     <div class="mac-header">
                         <span class="red"></span>
                         <span class="yellow"></span>
                         <span class="green"></span>
                     </div>
-                    <div class="row w-100 text-center m-auto ">
-                        @if (isBrowser) {
-                        <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"
-                            class="">
+                    @if (isBrowser && expenses().length > 0) {
+                        <canvas baseChart 
+                                [data]="pieChartData()" 
+                                [type]="pieChartType" 
+                                [options]="pieChartOptions">
                         </canvas>
-                        <p>{{CheckIsTrue()}}</p>
-                        }
+                    } @else {
+                        <div class="no-data-message">
+                            <p>No expenses recorded yet</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="row d-flex justify-content-center gap-lg-4 mt-3">
+            @if (expenses().length > 0) {
+                <div class="card col-lg-5 col-12 mb-3">
+                    <div class="mac-header">
+                        <span class="red"></span>
+                        <span class="yellow"></span>
+                        <span class="green"></span>
+                    </div>
+                    <span class="card-title">Daily Summary</span>
+                    <p class="card-description">Your spending overview</p>
+                    <div class="code-editor">
+                        <pre><code>
+Total Spent: ៛{{ summary().totalExpenses | number:'1.2-2' }}
+Total USD: ${{ getTotalInUSD() | number:'1.2-2' }}
+Total Items: {{ summary().totalItems }}
+                        </code></pre>
                     </div>
                 </div>
-            </div>
+                
+                <div class="card col-lg-5 col-12 mb-3">
+                    <div class="mac-header">
+                        <span class="red"></span>
+                        <span class="yellow"></span>
+                        <span class="green"></span>
+                    </div>
+                    <span class="card-title">By Category</span>
+                    <p class="card-description">Breakdown by spending category</p>
+                    <div class="code-editor">
+                        <pre><code>
+@for (category of Object.keys(summary().totalByCategory); track category) {
+{{ category | titlecase }}: ៛{{ summary().totalByCategory[category] | number:'1.2-2' }}
+}
+                        </code></pre>
+                    </div>
+                </div>
+            }
         </div>
-        <div class="row d-flex justify-content-center align-items-center gap-lg-4 mt-3" data-aos="zoom-in">
-            <div class="card col-6 mb-lg-0 mb-3" *ngIf="expenses?.length">
-                <div class="mac-header">
-                    <span class="red"></span>
-                    <span class="yellow"></span>
-                    <span class="green"></span>
-                </div>
-                <span class="card-title">My Day Spending</span>
-                <p class="card-description">
-                    Why pay full price today when you can cry about it tomorrow?
-                </p>
-                <div class="code-editor">
-                    @if (CatchSelected && QtyResult() && ConstGetItem) {
-                    <pre><code>&lt;h1&gt; {{totalSpendTitle}}<span class="highlight-red">{{result.toFixed(2)}}</span> &lt;/h1&gt;</code></pre>
-                    <pre><code>&lt;h1&gt; {{totalSpendTitleReal}}<span class="highlight-red">{{resultReal}}</span> &lt;/h1&gt;</code></pre>
-                    }
+        
+        <!-- Clear Button -->
+        @if (expenses().length > 0) {
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <button class="btn btn-danger" (click)="clearExpenses()">
+                        Clear All Expenses
+                    </button>
                 </div>
             </div>
-            <div class="card col-6" *ngIf="expenses?.length">
-                <div class="mac-header">
-                    <span class="red"></span>
-                    <span class="yellow"></span>
-                    <span class="green"></span>
-                </div>
-                <span class="card-title">Categories Day Spending</span>
-                <p class="card-description">
-                    Why pay full price today when you can cry about it tomorrow?
-                </p>
-                <div class="code-editor">
-                    @if (CatchSelected || QtyResult() && ConstGetItem) {
-                    @for (item of expenses; track $index) {
-                    @if (CatchSelected == item.category.toLowerCase()){
-                    <pre><code>&lt;h1&gt; <span>{{item.category}}: </span>៛ {{ConstGetItem}} &lt;/h1&gt;</code></pre>
-                    }
-                    }
-                    <pre><code>&lt;h1&gt; <span>{{TitleQty}}: </span> {{QtyResult()}} &lt;/h1&gt;</code></pre>
-                    }
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>
-<div class="container wrapper mt-4" *ngIf="expenses?.length">
-    <div class="mac-header d-flex justify-content-between align-content-center">
-        <div class="mac-header">
-            <span class="red"></span>
-            <span class="yellow"></span>
-            <span class="green"></span>
+
+<!-- Expense Table -->
+@if (expenses().length > 0) {
+    <div class="container wrapper mt-4">
+        <div class="mac-header d-flex justify-content-between align-content-center">
+            <div class="mac-header">
+                <span class="red"></span>
+                <span class="yellow"></span>
+                <span class="green"></span>
+            </div>
+            <div class="btn btn-pre">Expense History</div>
         </div>
-        <div class="btn btn-pre">My Daily Spend</div>
-    </div>
-    <table class="table align-middle mb-0 bg-white">
-        <thead class="bg-light">
-            <tr>
-                <th>Name</th>
-                <th>QTY</th>
-                <th>Price</th>
-                <th>Total</th>
-
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (exp of expenses; track $index){
-            <tr>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <p class="fw-bold mb-1">{{exp.category}}</p>
-                    </div>
-                </td>
-                <td>
-                    <p class="fw-normal mb-1">{{exp.qty}}</p>
-
-                </td>
-                <td>
-                    <span class="badge badge-success rounded-pill d-inline">{{exp.unitValue | number:'1.2-2'}}៛</span>
-                </td>
-                <td>{{exp.totalReal | number}}៛</td>
-                <td>{{exp.timestamp | date:'yyyy-MM-dd'}}</td>
+        
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (expense of expenses(); track expense.id) {
+                    <tr>
+                        <td>
+                            <span class="fw-bold">{{ expense.category | titlecase }}</span>
+                        </td>
+                        <td>{{ expense.quantity }}</td>
+                        <td>៛{{ expense.unitPrice | number:'1.2-2' }}</td>
+                        <td>៛{{ expense.totalAmount | number:'1.2-2' }}</td>
+                        <td>{{ expense.timestamp | date:'yyyy-MM-dd HH:mm' }}</td>
+                    </tr>
                 }
-            <tr>
-                <td>ToTal Amount: </td>
-                <td>{{GrandTotalImpiment()| number}}៛</td>
-            </tr>
-
-        </tbody>
-    </table>
-</div>
+                <tr class="table-info">
+                    <td colspan="3"><strong>Grand Total:</strong></td>
+                    <td><strong>៛{{ summary().totalExpenses | number:'1.2-2' }}</strong></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
