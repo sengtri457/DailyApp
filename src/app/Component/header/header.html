@@ -83,6 +83,7 @@
                         <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"
                             class="">
                         </canvas>
+                        <p>{{CheckIsTrue()}}</p>
                         }
                     </div>
                 </div>
@@ -168,6 +169,10 @@
                 <td>{{exp.totalReal | number}}៛</td>
                 <td>{{exp.timestamp | date:'yyyy-MM-dd'}}</td>
                 }
+            <tr>
+                <td>ToTal Amount: </td>
+                <td>{{GrandTotalImpiment()| number}}៛</td>
+            </tr>
 
         </tbody>
     </table>
